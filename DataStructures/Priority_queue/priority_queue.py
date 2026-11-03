@@ -5,8 +5,7 @@ from DataStructures.Priority_queue import pq_entry as pqe
 
 def new_heap(esminpq=True):
     """
-    Crea una cola de prioridad vacía orientada a menor o a mayor
-    dependiendo del valor de esminpq.
+    Crea una cola de prioridad vacía (a menor por defecto).
     """
     heap = {
         "elements": al.new_list(),
@@ -23,8 +22,7 @@ def new_heap(esminpq=True):
 
 def default_compare_higher_value(nodopadre, nodohijo):
     """
-    Retorna True si el padre tiene mayor o igual prioridad que el hijo
-    (cola orientada a mayor).
+    True si el padre tiene mayor o igual prioridad que el hijo.
     """
     if pqe.get_priority(nodopadre) >= pqe.get_priority(nodohijo):
         return True
@@ -33,8 +31,7 @@ def default_compare_higher_value(nodopadre, nodohijo):
 
 def default_compare_lower_value(nodopadre, nodohijo):
     """
-    Retorna True si el padre tiene menor o igual prioridad que el hijo
-    (cola orientada a menor).
+    True si el padre tiene menor o igual prioridad que el hijo.
     """
     if pqe.get_priority(nodopadre) <= pqe.get_priority(nodohijo):
         return True
@@ -43,22 +40,21 @@ def default_compare_lower_value(nodopadre, nodohijo):
 
 def priority(heap, padre, hijo):
     """
-    Indica si el padre tiene más prioridad que el hijo según la
-    función de comparación del heap.
+    True si el padre tiene más prioridad que el hijo.
     """
     return heap["cmp_function"](padre, hijo)
 
 
 def exchange(heap, pos1, pos2):
     """
-    Intercambia los elementos en las posiciones pos1 y pos2 del heap.
+    Intercambia dos elementos del heap.
     """
     al.exchange(heap["elements"], pos1, pos2)
 
 
 def size(heap):
     """
-    Retorna el número de elementos en el heap.
+    Retorna el número de elementos.
     """
     return heap["size"]
 
@@ -72,8 +68,7 @@ def is_empty(heap):
 
 def insert(heap, prioridad, valor):
     """
-    Agrega un nuevo elemento al final del heap y lo sube hasta su
-    posición correcta con swim.
+    Agrega un elemento y lo sube con swim.
     """
     entrada = pqe.new_pq_entry(prioridad, valor)
     al.add_last(heap["elements"], entrada)
@@ -84,8 +79,7 @@ def insert(heap, prioridad, valor):
 
 def swim(heap, pos):
     """
-    Sube el elemento en la posición pos mientras tenga más prioridad
-    que su padre.
+    Sube el elemento hasta su posición correcta.
     """
     while pos > 1:
         pospadre = pos // 2
@@ -99,8 +93,7 @@ def swim(heap, pos):
 
 def sink(heap, pos):
     """
-    Baja el elemento en la posición pos mientras alguno de sus hijos
-    tenga más prioridad que él.
+    Baja el elemento hasta su posición correcta.
     """
     tamano = size(heap)
     while 2 * pos <= tamano:
@@ -120,9 +113,7 @@ def sink(heap, pos):
 
 def remove(heap):
     """
-    Retira la entrada con mayor prioridad (la raíz) y retorna su valor.
-    El último elemento pasa a la raíz y se baja con sink.
-    Retorna None si el heap está vacío.
+    Retira la raíz y retorna su valor (None si está vacío).
     """
     if is_empty(heap):
         return None
@@ -136,8 +127,7 @@ def remove(heap):
 
 def get_first_priority(heap):
     """
-    Retorna el valor de la entrada con mayor prioridad sin retirarla.
-    Retorna None si el heap está vacío.
+    Retorna el valor de la raíz sin retirarla (None si está vacío).
     """
     if is_empty(heap):
         return None
@@ -146,8 +136,7 @@ def get_first_priority(heap):
 
 def is_present_value(heap, valor):
     """
-    Retorna la posición de la entrada cuyo valor es valor,
-    o -1 si no está en el heap.
+    Retorna la posición del valor o -1 si no está.
     """
     for pos in range(1, size(heap) + 1):
         entrada = al.get_element(heap["elements"], pos)
@@ -158,15 +147,14 @@ def is_present_value(heap, valor):
 
 def contains(heap, valor):
     """
-    Indica si existe una entrada con el valor dado en el heap.
+    Indica si el valor está en el heap.
     """
     return is_present_value(heap, valor) != -1
 
 
 def improve_priority(heap, prioridad, valor):
     """
-    Cambia la prioridad de la entrada con el valor dado por una mejor
-    y la sube hasta su posición correcta con swim.
+    Mejora la prioridad de un valor y lo sube con swim.
     """
     pos = is_present_value(heap, valor)
     if pos != -1:

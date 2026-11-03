@@ -93,23 +93,20 @@ def add_stop(analyzer, stop):
     # Agregar la parada a la lista general de paradas
     al.add_last(analyzer['stops'], stop)
 
-    # Solo la primera parada de cada ruta-dirección entra a la cola de prioridad
+    # Solo entra la primera parada de cada ruta
     if int(stop['StopSequence']) == 1:
         elemento = {
             'route_id': stop['ServiceNo'],
             'direction': stop['Direction'],
             'priority': stop['WD_FirstBus']
         }
-        # Se convierte a int para comparar horas HHMM sin depender de ceros a la izquierda.
-        # Las rutas sin servicio entre semana ('-') quedan al final de la cola
+        # Rutas sin hora ('-') van al final
         horasalida = elemento['priority']
         if horasalida.isdigit():
             prioridad = int(horasalida)
         else:
             prioridad = 9999
-        # El archivo trae rutas repetidas (ej. 410 dirección 1); cada ruta-dirección entra una sola vez
-        if not pq.contains(analyzer['routes_pq'], elemento):
-            pq.insert(analyzer['routes_pq'], prioridad, elemento)
+        pq.insert(analyzer['routes_pq'], prioridad, elemento)
 
     return analyzer
 
@@ -152,7 +149,7 @@ def get_next_route(analyzer):
 
     """
 
-    # remove retorna la ruta con mayor prioridad y la retira de la cola
+    # Saca la ruta con mayor prioridad
     sigruta = pq.remove(analyzer['routes_pq'])
     return sigruta
 
