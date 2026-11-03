@@ -100,13 +100,7 @@ def add_stop(analyzer, stop):
             'direction': stop['Direction'],
             'priority': stop['WD_FirstBus']
         }
-        # Rutas sin hora ('-') van al final
-        horasalida = elemento['priority']
-        if horasalida.isdigit():
-            prioridad = int(horasalida)
-        else:
-            prioridad = 9999
-        pq.insert(analyzer['routes_pq'], prioridad, elemento)
+        pq.insert(analyzer['routes_pq'], elemento['priority'], elemento)
 
     return analyzer
 
