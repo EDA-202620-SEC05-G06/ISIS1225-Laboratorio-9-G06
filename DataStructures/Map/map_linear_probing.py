@@ -25,6 +25,7 @@ def new_map(numelem, factcarga, primo=109345121):
         "current_factor": 0,
         "limit_factor": factcarga,
         "size": 0,
+        "type": "PROBING",
     }
     for _ in range(capac):
         al.add_last(mapa["table"], me.new_map_entry(None, None))
